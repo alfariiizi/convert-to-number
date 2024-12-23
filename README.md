@@ -1,9 +1,20 @@
 # @alfarizi/convert-to-number
 
-`convert-to-number` is a lightweight utility package for JavaScript and
-TypeScript that converts any value into a number. It provides robust handling
-for various types such as strings, arrays, objects, and primitives, with support
-for fallback values when conversion is not possible.
+A TypeScript utility package for converting strings, arrays, and objects into
+numbers, with support for nested structures. It offers both a strict conversion
+(which replaces invalid values with a fallback) and a soft conversion (which
+retains non-convertible values).
+
+## Features
+
+- Converts **string** to numbers.
+- Handles **nested arrays** and **objects**.
+- **TypeScript Support:** Fully typed for safer and predictable usage.
+- **Customizable Fallback:** Define a fallback value for unsupported
+  conversions.
+- Supports **custom fallback** values for invalid conversions.
+- Provides a **soft conversion** option where non-convertible values remain
+  unchanged.
 
 ## Installation
 
@@ -21,91 +32,96 @@ yarn add convert-to-number
 
 ## Usage
 
-Import the `convertToNumber` function and use it in your project:
+### `convertToNumber`
 
-### Basic Example
+This function recursively converts strings, arrays, and objects to numbers. It
+replaces non-convertible values with a fallback value (default: `0`).
+
+#### Syntax
 
 ```typescript
-import convertToNumber from "convert-to-number";
-
-// Convert a string to a number
-console.log(convertToNumber("123")); // Output: 123
-
-// Convert a non-numeric string with a fallback
-console.log(convertToNumber("abc", -1)); // Output: -1
-
-// Fallback to default value (0)
-console.log(convertToNumber(undefined)); // Output: 0
+convertToNumber<V, T = number>(value: V, fallback?: T): ConvertToNumberType<V, T>;
 ```
 
-### TypeScript Support
-
-The function is fully typed, with an optional generic type parameter `T` for
-specifying the fallback value type:
+#### Example
 
 ```typescript
-const result: number | string = convertToNumber("abc", "fallback");
-console.log(result); // Output: 'fallback'
+import { convertToNumber } from "convert-to-number";
+
+const result = convertToNumber("42");
+console.log(result); // 42
+
+const resultWithFallback = convertToNumber("abc", 1234);
+console.log(resultWithFallback); // 1234
+
+const nestedResult = convertToNumber({
+  a: "42",
+  b: ["43", "44", "abc"],
+  c: { d: "45" },
+});
+console.log(nestedResult);
+// Output: { a: 42, b: [43, 44, 0], c: { d: 45 } }
+```
+
+### `convertToNumberSoft`
+
+This function works similarly to `convertToNumber`, but it softens the
+conversion. If a value cannot be converted, it returns the original value
+instead of replacing it with the fallback.
+
+#### Syntax
+
+```typescript
+convertToNumberSoft<V>(value: V): ConvertToNumberSoftType<V>;
+```
+
+#### Example
+
+```typescript
+import { convertToNumberSoft } from "convert-to-number";
+
+const result = convertToNumberSoft("42");
+console.log(result); // 42
+
+const resultWithInvalidValue = convertToNumberSoft("abc");
+console.log(resultWithInvalidValue); // "abc"
+
+const nestedResult = convertToNumberSoft({
+  a: "42",
+  b: ["43", "44", "abc"],
+  c: { d: "45" },
+});
+console.log(nestedResult);
+// Output: { a: 42, b: [43, 44, "abc"], c: { d: 45 } }
 ```
 
 ## API
 
-### `convertToNumber<T = number>(value: any, fallback?: T): number | T`
+### `convertToNumber<V, T = number>(value: V, fallback?: T): ConvertToNumberType<V, T>`
 
 #### Parameters
 
-- `value` (any): The value to be converted to a number. It can be of any type,
+- `value` (`V`): The value to be converted to a number. It can be of any type,
   including primitives, strings, arrays, or objects.
-- `fallback` (T, optional): The fallback value to return if conversion is not
+- `fallback` (`T` | optional): The fallback value to return if conversion is not
   possible. Defaults to `0` if not provided.
 
 #### Returns
 
-- `number | T`: The converted number or the fallback value.
+- `ConvertToNumberType<V, T>`: The converted number or the fallback value.
 
-## Features
+## `convertToNumberSoft<V>(value: V): ConvertToNumberSoftType<V>`
 
-- **Handles Various Types:**
+#### Parameters
 
-  - Strings: Converts numeric strings to numbers, ignoring non-numeric strings.
-  - Arrays: Returns the first numeric value found in the array.
-  - Objects: Converts the first numeric value from its properties.
-  - Primitives: Directly converts numbers or defaults to the fallback value.
+- `value` (`V`): The value to be converted to a number. It can be of any type,
+  including primitives, strings, arrays, or objects.
 
-- **TypeScript Support:** Fully typed for safer and predictable usage.
+#### Returns
 
-- **Customizable Fallback:** Define a fallback value for unsupported
-  conversions.
-
-## Edge Cases
-
-- **Empty Strings:** Treated as invalid and return the fallback value.
-- **Nested Arrays/Objects:** Recursively processes arrays and objects to find a
-  valid numeric value.
-- **Invalid Values:** Non-numeric strings, `null`, or `undefined` default to the
-  fallback value.
-
-## Examples
-
-### Array Handling
-
-```typescript
-console.log(convertToNumber(["x", "y", 42], -1)); // Output: 42
-console.log(convertToNumber([], 0)); // Output: 0
-```
-
-### Object Handling
-
-```typescript
-console.log(convertToNumber({ a: "10", b: "invalid" }, -1)); // Output: 10
-console.log(convertToNumber({}, -1)); // Output: -1
-```
-
-### Nested Structures
-
-```typescript
-console.log(convertToNumber({ a: ["x", { b: "100" }] }, 0)); // Output: 100
-```
+- `ConvertToNumberSoftType<V>`: The converted value. If the value cannot be
+  converted to a number, it will return the original value (e.g., a string that
+  can't be parsed as a number will remain as a string).
 
 ## License
 

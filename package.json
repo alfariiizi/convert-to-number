@@ -1,7 +1,7 @@
 {
   "name": "@alfarizi/convert-to-number",
-  "version": "1.0.1",
-  "description": "Convert any value type into number. You can also specified the fallback if the result is NaN.",
+  "version": "1.0.2",
+  "description": "Typesafe converter from any value type into number. You can also specified the fallback if the result is NaN.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -21,7 +21,14 @@
     "javascript",
     "typescript",
     "convert",
-    "number"
+    "soft",
+    "number",
+    "array",
+    "object",
+    "string",
+    "boolean",
+    "null",
+    "undefined"
   ],
   "author": "Moh Rizal Alfarizi",
   "license": "MIT",
