@@ -21,13 +21,13 @@ retains non-convertible values).
 Install the package via npm or yarn:
 
 ```bash
-npm install convert-to-number
+npm install @alfarizi/convert-to-number
 ```
 
 or
 
 ```bash
-yarn add convert-to-number
+yarn add @alfarizi/convert-to-number
 ```
 
 ## Usage
@@ -46,7 +46,7 @@ convertToNumber<V, T = number>(value: V, fallback?: T): ConvertToNumberType<V, T
 #### Example
 
 ```typescript
-import { convertToNumber } from "convert-to-number";
+import { convertToNumber } from "@alfarizi/convert-to-number";
 
 const result = convertToNumber("42");
 console.log(result); // 42
@@ -78,7 +78,7 @@ convertToNumberSoft<V>(value: V): ConvertToNumberSoftType<V>;
 #### Example
 
 ```typescript
-import { convertToNumberSoft } from "convert-to-number";
+import { convertToNumberSoft } from "@alfarizi/convert-to-number";
 
 const result = convertToNumberSoft("42");
 console.log(result); // 42
