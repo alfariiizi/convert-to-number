@@ -39,7 +39,7 @@ function convertToNumber<V, T = number>(
     // Recursively handle nested objects
     const result: Record<string, any> = {};
     for (const key in value) {
-      if (Object.hasOwn(value, key)) {
+      if (Object.prototype.hasOwnProperty.call(value, key)) {
         result[key] = convertToNumber(value[key], fallbackValue);
       }
     }

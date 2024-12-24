@@ -22,7 +22,7 @@ function convertToNumberSoft<V>(value: V): ConvertToNumberSoftType<V> {
   if (typeof value === "object" && value !== null) {
     const result: Record<string, any> = {};
     for (const key in value) {
-      if (Object.hasOwn(value, key)) {
+      if (Object.prototype.hasOwnProperty.call(value, key)) {
         result[key] = convertToNumberSoft(value[key]);
       }
     }
