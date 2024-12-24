@@ -148,3 +148,229 @@ test("Soft convert combination of strings, arrays and objects to numbers", () =>
     g: "abc",
   });
 });
+
+describe("convertToNumberSoft", () => {
+  it("should correctly convert numeric strings to numbers in the JSON structure", () => {
+    const input = {
+      status: "success",
+      message: "Data retrieved successfully",
+      data: [
+        {
+          id: "61ed78f4-587f-4dc0-b9e7-061c811b1c13",
+          name: "PERSONAL",
+          description: "Personal Plan",
+          priority: 0,
+          price: "108000",
+          before_discount_price: "120000",
+          is_free: true,
+          discount: 10,
+          duration_in_days: 30,
+          billed: "MONTHLY",
+          update_support: false,
+          count_product: 5,
+          count_order: 40,
+          team_member: 3,
+          reseller: 0,
+          checkout_page: true,
+          landing_page_builder: true,
+          store_builder: false,
+          cod: false,
+          change_logo: false,
+          rent_account_business: true,
+          createdAt: "2024-12-16T08:55:03.688Z",
+          updatedAt: "2024-12-16T08:55:03.688Z",
+          deletedAt: null,
+          packages_description: [
+            {
+              id: "3dc3770a-b2e6-4553-ad19-a8ff9ac65129",
+              package_id: "61ed78f4-587f-4dc0-b9e7-061c811b1c13",
+              check: "true",
+              desc: "Harga paling terjangkau. Hanya  {{price}}",
+              createdAt: "2024-12-16T08:55:03.688Z",
+              updatedAt: "2024-12-16T08:55:03.688Z",
+              deletedAt: null,
+            },
+            {
+              id: "b1cc8dbb-6f1c-4648-bea3-5de92913b577",
+              package_id: "61ed78f4-587f-4dc0-b9e7-061c811b1c13",
+              check: "true",
+              desc: "{{team_member}} Team member",
+              createdAt: "2024-12-16T08:55:03.688Z",
+              updatedAt: "2024-12-16T08:55:03.688Z",
+              deletedAt: null,
+            },
+            {
+              id: "e94c2619-4f01-4fe7-9c9b-28428197d986",
+              package_id: "61ed78f4-587f-4dc0-b9e7-061c811b1c13",
+              check: "false",
+              desc: "Jumlah produk sampai {{count_product}}",
+              createdAt: "2024-12-16T08:55:03.688Z",
+              updatedAt: "2024-12-16T08:55:03.688Z",
+              deletedAt: null,
+            },
+          ],
+        },
+      ],
+    };
+
+    const expectedOutput = {
+      status: "success",
+      message: "Data retrieved successfully",
+      data: [
+        {
+          id: "61ed78f4-587f-4dc0-b9e7-061c811b1c13",
+          name: "PERSONAL",
+          description: "Personal Plan",
+          priority: 0,
+          price: 108000, // Converted
+          before_discount_price: 120000, // Converted
+          is_free: true,
+          discount: 10,
+          duration_in_days: 30,
+          billed: "MONTHLY",
+          update_support: false,
+          count_product: 5,
+          count_order: 40,
+          team_member: 3,
+          reseller: 0,
+          checkout_page: true,
+          landing_page_builder: true,
+          store_builder: false,
+          cod: false,
+          change_logo: false,
+          rent_account_business: true,
+          createdAt: "2024-12-16T08:55:03.688Z",
+          updatedAt: "2024-12-16T08:55:03.688Z",
+          deletedAt: null,
+          packages_description: [
+            {
+              id: "3dc3770a-b2e6-4553-ad19-a8ff9ac65129",
+              package_id: "61ed78f4-587f-4dc0-b9e7-061c811b1c13",
+              check: "true",
+              desc: "Harga paling terjangkau. Hanya  {{price}}",
+              createdAt: "2024-12-16T08:55:03.688Z",
+              updatedAt: "2024-12-16T08:55:03.688Z",
+              deletedAt: null,
+            },
+            {
+              id: "b1cc8dbb-6f1c-4648-bea3-5de92913b577",
+              package_id: "61ed78f4-587f-4dc0-b9e7-061c811b1c13",
+              check: "true",
+              desc: "{{team_member}} Team member",
+              createdAt: "2024-12-16T08:55:03.688Z",
+              updatedAt: "2024-12-16T08:55:03.688Z",
+              deletedAt: null,
+            },
+            {
+              id: "e94c2619-4f01-4fe7-9c9b-28428197d986",
+              package_id: "61ed78f4-587f-4dc0-b9e7-061c811b1c13",
+              check: "false",
+              desc: "Jumlah produk sampai {{count_product}}",
+              createdAt: "2024-12-16T08:55:03.688Z",
+              updatedAt: "2024-12-16T08:55:03.688Z",
+              deletedAt: null,
+            },
+          ],
+        },
+      ],
+    };
+
+    const output = convertToNumberSoft(input);
+
+    expect(output).toEqual(expectedOutput);
+  });
+});
+
+describe("convertToNumber - Complex JSON Structure", () => {
+  test("should convert complex JSON structure with nested objects and arrays", () => {
+    const input = {
+      status: "success",
+      message: "Data retrieved successfully",
+      data: [
+        {
+          id: "61ed78f4-587f-4dc0-b9e7-061c811b1c13",
+          name: "PERSONAL",
+          description: "Personal Plan",
+          priority: 0,
+          price: "108000",
+          before_discount_price: "120000",
+          is_free: true,
+          discount: 10,
+          duration_in_days: 30,
+          billed: "MONTHLY",
+          update_support: false,
+          count_product: 5,
+          count_order: 40,
+          team_member: 3,
+          reseller: 0,
+          checkout_page: true,
+          landing_page_builder: true,
+          store_builder: false,
+          cod: false,
+          change_logo: false,
+          rent_account_business: true,
+          createdAt: "2024-12-16T08:55:03.688Z",
+          updatedAt: "2024-12-16T08:55:03.688Z",
+          deletedAt: null,
+          packages_description: [
+            {
+              id: "3dc3770a-b2e6-4553-ad19-a8ff9ac65129",
+              package_id: "61ed78f4-587f-4dc0-b9e7-061c811b1c13",
+              check: "true",
+              desc: "Harga paling terjangkau. Hanya  {{price}}",
+              createdAt: "2024-12-16T08:55:03.688Z",
+              updatedAt: "2024-12-16T08:55:03.688Z",
+              deletedAt: null,
+            },
+          ],
+        },
+      ],
+    };
+
+    const expected = {
+      status: 0,
+      message: 0,
+      data: [
+        {
+          id: 0,
+          name: 0,
+          description: 0,
+          priority: 0,
+          price: 108000,
+          before_discount_price: 120000,
+          is_free: 0,
+          discount: 10,
+          duration_in_days: 30,
+          billed: 0,
+          update_support: 0,
+          count_product: 5,
+          count_order: 40,
+          team_member: 3,
+          reseller: 0,
+          checkout_page: 0,
+          landing_page_builder: 0,
+          store_builder: 0,
+          cod: 0,
+          change_logo: 0,
+          rent_account_business: 0,
+          createdAt: 0,
+          updatedAt: 0,
+          deletedAt: 0,
+          packages_description: [
+            {
+              id: 0,
+              package_id: 0,
+              check: 0,
+              desc: 0,
+              createdAt: 0,
+              updatedAt: 0,
+              deletedAt: 0,
+            },
+          ],
+        },
+      ],
+    };
+
+    expect(convertToNumber(input)).toEqual(expected);
+  });
+});

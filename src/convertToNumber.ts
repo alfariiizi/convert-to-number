@@ -18,6 +18,16 @@ function convertToNumber<V, T = number>(
     return (isNaN(value) ? fallbackValue : value) as ConvertToNumberType<V, T>;
   }
 
+  if (typeof value === "string") {
+    const trimmedValue = value.trim();
+    const parsedValue = Number(trimmedValue);
+
+    if (!trimmedValue || isNaN(parsedValue)) {
+      return fallbackValue as ConvertToNumberType<V, T>;
+    }
+    return parsedValue as ConvertToNumberType<V, T>;
+  }
+
   if (Array.isArray(value)) {
     // Recursively handle array nesting
     return value.map((item) =>
@@ -34,16 +44,6 @@ function convertToNumber<V, T = number>(
       }
     }
     return result as ConvertToNumberType<V, T>;
-  }
-
-  if (typeof value === "string") {
-    const trimmedValue = value.trim();
-    const parsedValue = parseFloat(trimmedValue);
-
-    if (!trimmedValue || isNaN(parsedValue)) {
-      return fallbackValue as ConvertToNumberType<V, T>;
-    }
-    return parsedValue as ConvertToNumberType<V, T>;
   }
 
   // For other types, return the fallbackValue
