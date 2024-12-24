@@ -1,6 +1,6 @@
 {
   "name": "@alfarizi/convert-to-number",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Typesafe converter from any value type into number. You can also specified the fallback if the result is NaN.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
